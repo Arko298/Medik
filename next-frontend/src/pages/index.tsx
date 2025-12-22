@@ -310,7 +310,7 @@ export default function HealthcareLandingPage() {
                     ))}
                   </div>
                   <blockquote className="text-xl text-gray-700 mb-6 italic">
-                    "{testimonials[currentTestimonial].content}"
+                    &quot;{testimonials[currentTestimonial].content}&quot;
                   </blockquote>
                   <div className="flex items-center justify-center space-x-4">
                     <Image
@@ -431,7 +431,7 @@ export default function HealthcareLandingPage() {
                 </li>
               </ul>
             </div>
-
+              {/** Above links to be added */}
             <div>
               <h3 className="font-semibold text-white mb-4">Company</h3>
               <ul className="space-y-2">

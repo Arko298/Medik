@@ -5,6 +5,7 @@ import { Avatar } from "@/components/ui/avatar"
 import { Camera, Trash2, Loader2 } from "lucide-react"
 import { useUpdateProfilePictureMutation, useDeleteProfilePictureMutation } from "@/redux/api/userApiSlice"
 import { toast } from "react-toastify"
+import Image from "next/image"
 
 interface ProfilePictureUploadProps {
   currentAvatar?: string
@@ -99,7 +100,9 @@ const ProfilePictureUpload = ({ currentAvatar, userId, onPictureUpdate }: Profil
         onMouseLeave={() => setIsHovering(false)}
       >
         <Avatar className="h-32 w-32 border-4 border-background">
-          <img
+          <Image  
+            height={128}
+            width={128}
             src={displayedAvatar || "/placeholder.svg"}
             alt="Profile"
             className="h-32 w-32 rounded-full object-cover"

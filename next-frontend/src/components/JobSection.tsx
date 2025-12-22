@@ -25,8 +25,8 @@ interface Job {
   applicationDeadline?: string
   author: {
     _id: string
-    username: string
-    avatar: string
+    userName: string
+    profilePicture: string
   }
   likes: string[]
   comments: Array<{
@@ -34,8 +34,8 @@ interface Job {
     text: string
     user: {
       _id: string
-      username: string
-      avatar: string
+      userName: string
+      profilePicture: string
     }
     createdAt: string
   }>
@@ -160,13 +160,13 @@ const JobSection = () => {
                 <div className="flex items-center">
                   <Avatar className="h-6 w-6 mr-2">
                     <Image
-                      src={job.author.avatar || "/placeholder-user.jpg"}
-                      alt={job.author.username}
+                      src={job.author.profilePicture || "/placeholder-user.jpg"}
+                      alt={job.author.userName}
                       height={24} width={24}
                       className="h-6 w-6 rounded-full object-cover"
                     />
                   </Avatar>
-                  <span>Posted by {job.author.username}</span>
+                  <span>Posted by {job.author.userName}</span>
                 </div>
                 <span className="mx-2">•</span>
                 <span>{formatDate(job.createdAt)}</span>
@@ -209,15 +209,15 @@ const JobSection = () => {
                     <div key={comment._id} className="flex space-x-2">
                       <Avatar className="h-8 w-8">
                         <Image
-                          src={comment.user.avatar || "/placeholder-user.jpg"}
-                          alt={comment.user.username}
+                          src={comment.user.profilePicture || "/placeholder-user.jpg"}
+                          alt={comment.user.userName}
                           height={32} width={32}
                           className="h-8 w-8 rounded-full object-cover"
                         />
                       </Avatar>
                       <div className="bg-gray-100 rounded-lg p-2 flex-1">
                         <div className="flex justify-between">
-                          <span className="font-medium text-sm">{comment.user.username}</span>
+                          <span className="font-medium text-sm">{comment.user.userName}</span>
                           <span className="text-xs text-gray-500">{formatDate(comment.createdAt)}</span>
                         </div>
                         <p className="text-sm">{comment.text}</p>

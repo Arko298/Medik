@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import type { RootState } from "@/store"
 import { UserPlus, UserMinus, Loader2 } from "lucide-react"
 import { useRouter } from "next/router"
+import Image from "next/image"
 
 interface FollowersModalProps {
   isOpen: boolean
@@ -77,7 +78,9 @@ const FollowersModal = ({ isOpen, onClose, userId, fullName }: FollowersModalPro
                     onClick={() => handleViewProfile(follower._id)}
                   >
                     <Avatar className="h-10 w-10">
-                      <img
+                      <Image
+                        height={40}
+                        width={40}
                         src={follower.avatar || "/placeholder-user.jpg"}
                         alt={follower.fullName}
                         className="h-10 w-10 rounded-full object-cover"

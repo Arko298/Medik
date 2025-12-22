@@ -3,7 +3,7 @@ import Header from "@/components/Header/header";
 import Sidebar from "@/components/Sidebar/admin_sidebar"
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import {entries} from "static.js"
+// import {entries} from "static.js"
 import {Line,Doughnut} from "react-chartjs-2"
 import {Chart as ChartJS,
         CategoryScale,

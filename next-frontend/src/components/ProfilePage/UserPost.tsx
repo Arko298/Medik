@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Avatar } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Heart, MessageCircle, Share } from "lucide-react"
+import Image from "next/image"
 
 interface UserPostsProps {
   userId: string
@@ -36,17 +37,19 @@ const UserPosts = ({ userId }: UserPostsProps) => {
         <Card key={post._id} className="p-4">
           <div className="flex items-center space-x-3 mb-4">
             <Avatar>
-              <img
-                src={post.author.avatar || "/placeholder-user.jpg"}
+              <Image
+                height={40}
+                width={40}
+                        src={post.author.profilePicture || "/placeholder-user.jpg"}
                 alt={post.author.fullName}
                 className="h-10 w-10 rounded-full object-cover"
               />
             </Avatar>
             <div>
               <h3 className="font-medium">{post.author.fullName}</h3>
-              <p className="text-xs text-gray-500">
-                @{post.author.username} • {new Date(post.createdAt).toLocaleDateString()}
-              </p>
+              <div className="text-xs flex-grow text-gray-500">
+                          @{post.author.userName} • {new Date(post.createdAt).toLocaleDateString()}
+              </div>
             </div>
           </div>
 
@@ -57,7 +60,9 @@ const UserPosts = ({ userId }: UserPostsProps) => {
 
           {post.image && (
             <div className="mb-4">
-              <img
+              <Image
+              width={100}
+              height={256}
                 src={post.image}
                 alt={post.title}
                 className="w-full h-64 object-cover rounded-lg"

@@ -1,119 +1,147 @@
-"use client"
-import { useState } from "react"
-import { useGetPostsQuery } from "@/redux/api/postApiSlice"
-import { Card } from "@/components/ui/card"
-import { Avatar } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Heart, MessageCircle, Share, MoreHorizontal, Bookmark } from "lucide-react"
-import { useToggleLikePostMutation, useAddCommentMutation } from "@/redux/api/postApiSlice"
-import { useSelector } from "react-redux"
-import type { RootState } from "@/store"
-import { Input } from "./ui/input"
+"use client";
+import { useState } from "react";
+import { useGetPostsQuery } from "@/redux/api/postApiSlice";
+import { Card } from "@/components/ui/card";
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Heart,
+  MessageCircle,
+  Share,
+  MoreHorizontal,
+  Bookmark,
+} from "lucide-react";
+import {
+  useToggleLikePostMutation,
+  useAddCommentMutation,
+} from "@/redux/api/postApiSlice";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
+import { Input } from "./ui/input";
+import Image from "next/image";
 
 interface Comment {
-  _id: string
-  text: string
+  _id: string;
+  text: string;
   user: {
-    _id: string
-    username: string
-    avatar: string
-  }
-  createdAt: string
+    _id: string;
+    userName: string;
+    profilePicture: string;
+  };
+  createdAt: string;
 }
 
 interface Post {
-  _id: string
-  title: string
-  description: string
-  content: string
-  image?: string
+  _id: string;
+  title: string;
+  description: string;
+  content: string;
+  image?: string;
   author: {
-    _id: string
-    username: string
-    avatar: string
-  }
-  likes: string[]
-  comments: Comment[]
-  createdAt: string
+    _id: string;
+    userName: string;
+    fullName: string;
+    profilePicture: string;
+  };
+  likes: string[];
+  comments: Comment[];
+  createdAt: string;
 }
 
 const PostFeed = () => {
-  const { data: postsData, isLoading, isError, refetch } = useGetPostsQuery({ page: 1, limit: 10 })
-  const [toggleLike] = useToggleLikePostMutation()
-  const [addComment] = useAddCommentMutation()
-  const [commentText, setCommentText] = useState<string>("")
-  const [activeCommentPostId, setActiveCommentPostId] = useState<string | null>(null)
+  const {
+    data: postsData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetPostsQuery({ page: 1, limit: 10 });
+  const [toggleLike] = useToggleLikePostMutation();
+  const [addComment] = useAddCommentMutation();
+  const [commentText, setCommentText] = useState<string>("");
+  const [activeCommentPostId, setActiveCommentPostId] = useState<string | null>(
+    null
+  );
 
-  const { userInfo } = useSelector((state: RootState) => state.auth)
+  const { userInfo } = useSelector((state: RootState) => state.auth);
 
   if (isLoading) {
-    return <div className="flex justify-center p-8">Loading posts...</div>
+    return <div className="flex justify-center p-8">Loading posts...</div>;
   }
 
   if (isError) {
-    return <div className="flex justify-center p-8">Error loading posts. Please try again later.</div>
+    return (
+      <div className="flex justify-center p-8">
+        Error loading posts. Please try again later.
+      </div>
+    );
   }
 
-  const posts: Post[] = postsData?.data?.posts || []
+  const posts: Post[] = postsData?.data?.posts || [];
 
   const handleLike = async (postId: string) => {
     if (!userInfo) {
-      alert("Please log in to like posts")
-      return
+      alert("Please log in to like posts");
+      return;
     }
 
     try {
-      await toggleLike(postId).unwrap()
+      await toggleLike(postId).unwrap();
     } catch (error) {
-      console.error("Failed to like post:", error)
+      console.error("Failed to like post:", error);
     }
-  }
+  };
 
   const handleComment = async (postId: string) => {
     if (!userInfo) {
-      alert("Please log in to comment")
-      return
+      alert("Please log in to comment");
+      return;
     }
 
-    if (!commentText.trim()) return
+    if (!commentText.trim()) return;
 
     try {
-      await addComment({ id: postId, text: commentText }).unwrap()
-      setCommentText("")
-      setActiveCommentPostId(null)
+      await addComment({ id: postId, text: commentText }).unwrap();
+      setCommentText("");
+      setActiveCommentPostId(null);
     } catch (error) {
-      console.error("Failed to add comment:", error)
+      console.error("Failed to add comment:", error);
     }
-  }
+  };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
-    })
-  }
+    });
+  };
 
   return (
     <div className="space-y-6 mt-6">
       {posts.length === 0 ? (
-        <div className="text-center p-8 border rounded-lg">No posts yet. Be the first to share something!</div>
+        <div className="text-center p-8 border rounded-lg">
+          No posts yet. Be the first to share something!
+        </div>
       ) : (
         posts.map((post) => (
           <Card key={post._id} className="overflow-hidden">
             <div className="p-4 flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Avatar>
-                  <img
-                    src={post.author.avatar || "/avatar.svg"}
-                    alt={post.author.username}
+                  <Image
+                    height={40}
+                    width={40}
+                    src={post.author.profilePicture || "/avatar.svg"}
+                    alt={post.author.userName}
                     className="h-10 w-10 rounded-full object-cover"
                   />
                 </Avatar>
                 <div>
-                  <h3 className="font-medium">{post.author.username}</h3>
-                  <p className="text-xs text-gray-500">{formatDate(post.createdAt)}</p>
+                  <div className="font-medium text-xl ">{post.author.fullName}</div> {/** Why the fullname is not fetched??? */}
+                  <p className="text-xs text-gray-500">
+                    {formatDate(post.createdAt)}
+                  </p>
                 </div>
               </div>
               <Button variant="ghost" size="icon">
@@ -128,7 +156,13 @@ const PostFeed = () => {
 
             {post.image && (
               <div className="w-full h-64 relative">
-                <img src={post.image || "/placeholder.svg"} alt={post.title} className="w-full h-full object-cover" />
+                <Image
+                  height={100}
+                  width={100}
+                  src={post.image || "/placeholder.svg"}
+                  alt={post.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
             )}
 
@@ -149,12 +183,20 @@ const PostFeed = () => {
                   variant="ghost"
                   size="sm"
                   className="flex items-center space-x-1"
-                  onClick={() => setActiveCommentPostId(activeCommentPostId === post._id ? null : post._id)}
+                  onClick={() =>
+                    setActiveCommentPostId(
+                      activeCommentPostId === post._id ? null : post._id
+                    )
+                  }
                 >
                   <MessageCircle className="h-5 w-5" />
                   <span>{post.comments.length}</span>
                 </Button>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center space-x-1"
+                >
                   <Share className="h-5 w-5" />
                 </Button>
               </div>
@@ -170,16 +212,22 @@ const PostFeed = () => {
                   {post.comments.slice(0, 3).map((comment) => (
                     <div key={comment._id} className="flex space-x-2">
                       <Avatar className="h-8 w-8">
-                        <img
-                          src={comment.user.avatar || "/placeholder-user.jpg"}
-                          alt={comment.user.username}
+                          <Image
+                          height={32}
+                          width={32}
+                          src={comment.user.profilePicture || "/placeholder-user.jpg"}
+                          alt={comment.user.userName}
                           className="h-8 w-8 rounded-full object-cover"
                         />
                       </Avatar>
                       <div className="bg-gray-100 rounded-lg p-2 flex-1">
                         <div className="flex justify-between">
-                          <span className="font-medium text-sm">{comment.user.username}</span>
-                          <span className="text-xs text-gray-500">{formatDate(comment.createdAt)}</span>
+                          <span className="font-medium text-sm">
+                            {comment.user.userName}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {formatDate(comment.createdAt)}
+                          </span>
                         </div>
                         <p className="text-sm">{comment.text}</p>
                       </div>
@@ -209,7 +257,7 @@ const PostFeed = () => {
         ))
       )}
     </div>
-  )
-}
+  );
+};
 
-export default PostFeed
+export default PostFeed;

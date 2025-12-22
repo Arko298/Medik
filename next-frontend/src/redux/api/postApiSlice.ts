@@ -10,9 +10,10 @@ export const postApiSlice = apiSlice.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.data.posts.map(({ _id }: { _id: string }) => ({
+              ...result.data.posts.map(({ _id,fullName }: { _id: string, fullName:string }) => ({
                 type: "Post" as const,
                 id: _id,
+                fullName: fullName,
               })),
               { type: "Post", id: "LIST" },
             ]

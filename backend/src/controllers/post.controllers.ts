@@ -46,9 +46,9 @@ const getPosts = asyncHandler(async (req: Request, res: Response) => {
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
-    .populate("author", "username avatar")
-    .populate("likes", "username")
-    .populate("comments.user", "username avatar");
+    .populate("author", "userName fullName profilePicture")
+    .populate("likes", "userName fullName profilePicture")
+    .populate("comments.user", "userName fullName profilePicture");
 
   const totalPosts = await Post.countDocuments();
 
@@ -66,9 +66,9 @@ const getPostById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const post = await Post.findById(id)
-    .populate("author", "username avatar")
-    .populate("likes", "username")
-    .populate("comments.user", "username avatar");
+    .populate("author", "userName fullName profilePicture")
+    .populate("likes", "userName fullName profilePicture")
+    .populate("comments.user", "userName fullName profilePicture");
 
   if (!post) {
     throw new ApiError(404, "Post not found");
@@ -134,7 +134,7 @@ const addComment = asyncHandler(async (req: any, res: Response) => {
   // Populate the user details in the newly added comment
   const populatedPost = await Post.findById(id).populate(
     "comments.user",
-    "username avatar",
+    "userName fullName profilePicture",
   );
 
   res
@@ -146,7 +146,7 @@ const getPostComments = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const post = await Post.findById(id).populate(
     "comments.user",
-    "username avatar",
+    "userName fullName profilePicture",
   );
 
   if (!post) {
@@ -173,9 +173,9 @@ const getPostsByUser = asyncHandler(async (req: Request, res: Response) => {
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
-    .populate("author", "username fullName avatar")
-    .populate("likes", "username")
-    .populate("comments.user", "username avatar");
+    .populate("author", "userName fullName profilePicture")
+    .populate("likes", "userName fullName profilePicture")
+    .populate("comments.user", "userName fullName profilePicture");
 
   const totalPosts = await Post.countDocuments({ author: userId });
 
@@ -263,7 +263,7 @@ const searchPosts = asyncHandler(async (req: Request, res: Response) => {
     .sort({ score: { $meta: "textScore" } })
     .skip(skip)
     .limit(limit)
-    .populate("author", "username avatar");
+    .populate("author", "userName fullName profilePicture");
 
   const totalPosts = await Post.countDocuments({
     $text: { $search: query as string },

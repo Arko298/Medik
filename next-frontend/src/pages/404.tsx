@@ -13,7 +13,7 @@ const NotFound: React.FC = () => {
         Oops! Page not found
       </h1>
       <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
-        We couldn't find the page you're looking for.
+        We couldn&apos;t find the page you&apos;re looking for.
       </p>
       <button
         onClick={() => (window.location.href = "/home")} // Navigate home
