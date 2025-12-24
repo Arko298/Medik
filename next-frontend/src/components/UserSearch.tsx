@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card"
 import { Avatar } from "@/components/ui/avatar"
 import { useSearchUsersQuery } from "@/redux/api/userApiSlice"
 import { useRouter } from "next/router"
+import Image from "next/image"
 
 const UserSearch = () => {
   const [searchQuery, setSearchQuery] = useState("")
@@ -57,7 +58,9 @@ const UserSearch = () => {
                   onClick={() => handleUserClick(user._id)}
                 >
                   <Avatar className="h-10 w-10">
-                    <img
+                    <Image
+                      height={40}
+                      width={40}
                       src={user.avatar || "/placeholder-user.jpg"}
                       alt={user.fullName}
                       className="h-10 w-10 rounded-full object-cover"

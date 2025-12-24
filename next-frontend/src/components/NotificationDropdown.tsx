@@ -11,6 +11,7 @@ import {
   useMarkAllAsReadMutation,
   useDeleteNotificationMutation,
 } from "@/redux/api/notificationApiSlice"
+import Image from "next/image"
 
 const NotificationDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -97,7 +98,9 @@ const NotificationDropdown = () => {
               >
                 <div className="flex items-start space-x-3">
                   <Avatar className="h-10 w-10">
-                    <img
+                    <Image
+                      height={40}
+                      width={40}
                       src={notification.sender.avatar || "/placeholder-user.jpg"}
                       alt={notification.sender.fullName}
                       className="h-10 w-10 rounded-full object-cover"

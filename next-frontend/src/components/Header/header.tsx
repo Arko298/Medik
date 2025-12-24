@@ -105,7 +105,7 @@ const Header = ({ isOpen, onToggleSidebar }) => {
               searchResults?.data?.users?.map((user) => (
                 <div key={user._id} className={styles.searchResultItem} onClick={() => handleUserClick(user._id)}>
                   <div className={styles.userAvatar}>
-                    <img
+                    <Image
                       src={user.avatar || "/placeholder-user.jpg"}
                       alt={user.fullName}
                       width={32}

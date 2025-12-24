@@ -6,6 +6,7 @@ import { useRegisterUserMutation } from "@/redux/api/userApiSlice";
 import { toast } from "react-toastify";
 import { setCredentials } from "@/redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import Link from "next/link";
 
 interface FormData {
   fullName: string;
@@ -218,9 +219,9 @@ const SignUp: React.FC = () => {
 
         <div className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/auth/login" className="text-blue-600 hover:underline">
+          <Link href="/auth/login" className="text-blue-600 hover:underline">
             Login
-          </a>
+          </Link>
         </div>
       </div>
     </div>

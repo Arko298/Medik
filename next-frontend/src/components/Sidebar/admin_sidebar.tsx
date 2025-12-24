@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
     } else {
       // console.log("Sidebar useEffect: activeButton already matches current path, no update needed."); // Debugging
     }
-  }, [router.pathname, setActiveButton]); // Re-run when router.pathname changes
+  }, [router.pathname, setActiveButton, activeButton]); // Re-run when router.pathname changes
 
   {
     /* Setting the initial active button based on the current route */
